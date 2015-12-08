@@ -3,12 +3,20 @@ target/
 .idea/*.xml
 .idea/.name
 toolAgents.iml
+tool-agents.iml
 out/
 
 toolPlantform/target/
 toolPlantform/toolPlantform.iml
+toolPlantform/tool-plantform.iml
 toolPlantform/out/
 
 toolService/target/
 toolService/toolService.iml
+toolService/tool-service.iml
 toolService/out/
+
+toolCommons/target/
+toolCommons/out/
+toolCommons/tool-commons.iml
+toolCommons/toolCommons.iml
