@@ -9,6 +9,8 @@ import org.yawlfoundation.yawl.resourcing.rsInterface.ResourceGatewayClient;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by adam on 2015/12/8.
@@ -36,21 +38,31 @@ public class YAWLRSClientImpl implements YAWLRSClient{
 
     private String handler;
 
+    private Lock lock;
+
     @PostConstruct
     public void init(){
         rsGatewayClient = new ResourceGatewayClient(adminInfo.getRsGatewayUrl());
+        lock = new ReentrantLock();
     }
 
     @Override
     public void keepSession() throws IOException {
-        if (handler == null){
-            handler = rsGatewayClient.connect(adminInfo.getUsername(),adminInfo.getPassword());
-        }else{
-            boolean isConn = Boolean.parseBoolean(rsGatewayClient.checkConnection(handler));
-            if (!isConn){
+        lock.lock();
+
+        try{
+            if (handler == null){
                 handler = rsGatewayClient.connect(adminInfo.getUsername(),adminInfo.getPassword());
+            }else{
+                boolean isConn = Boolean.parseBoolean(rsGatewayClient.checkConnection(handler));
+                if (!isConn){
+                    handler = rsGatewayClient.connect(adminInfo.getUsername(),adminInfo.getPassword());
+                }
             }
+        }finally {
+            lock.unlock();
         }
+
     }
 
     @Override

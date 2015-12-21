@@ -1,16 +1,9 @@
 package com.sysu.toolService.util;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sysu.toolCommons.result.ResultInfo;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpResponseException;
+import com.sysu.toolService.util.ResponseHandler.ResultInfoResponseHandler;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.jdom.Element;
@@ -20,9 +13,6 @@ import org.yawlfoundation.yawl.resourcing.rsInterface.ResourceGatewayException;
 import org.yawlfoundation.yawl.util.JDOMUtil;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +34,7 @@ public class ResourceManagerUtil {
 
     private static final String PARTI2ROLES_PATH_PRE = "participantRoles/";
 
-    private static Gson gson = new GsonBuilder().create();
+
 
     /*********************   YAWL's code' *******************/
 
@@ -123,33 +113,6 @@ public class ResourceManagerUtil {
     /*********************   YAWL's code' *******************/
 
 
-
-    /*********************   ResultInfoResponseHandler   *******************/
-    private static class ResultInfoResponseHandler implements ResponseHandler<ResultInfo>{
-
-        @Override
-        public ResultInfo handleResponse(HttpResponse httpResponse) throws ClientProtocolException, IOException {
-            StatusLine statusLine = httpResponse.getStatusLine();
-            HttpEntity entity = httpResponse.getEntity();
-            if (statusLine.getStatusCode() >= 300){
-                throw new HttpResponseException(
-                        statusLine.getStatusCode(),
-                        statusLine.getReasonPhrase()
-                );
-            }
-
-            if (entity == null){
-                throw new ClientProtocolException("response not content");
-            }
-
-            ContentType contentType = ContentType.getOrDefault(entity);
-            Charset charset = contentType.getCharset();
-            Reader reader = new InputStreamReader(entity.getContent(),charset);
-            ResultInfo ri = gson.fromJson(reader,ResultInfo.class);
-            return ri;
-        }
-    }
-    /*********************   ResultInfoResponseHandler   *******************/
 
     public static List<Role> requestRoles() throws IOException, ResourceGatewayException {
         String url = sysInfo.getPlantFormRSPath()+ROLES_PATH;

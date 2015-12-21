@@ -38,7 +38,6 @@ public class ResourceServiceController implements SysLogger{
             @Override
             public Object doExe(HttpServletRequest request, HttpServletResponse response) throws Exception {
                 String rsStr = yawlrsClient.getRoles();
-                System.out.println(rsStr+"===");
                 return rsStr;
             }
 

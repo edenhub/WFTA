@@ -43,4 +43,12 @@ public class SystemInfoProperties extends Properties implements SysLogger{
         String rsPathName = getProperty("sys.plantform.rsPath", "remoting");
         return host+"/"+contentName+"/"+rsPathName+"/";
     }
+
+    public String getPlantFormWQPath(){
+        String host = getPlantFormHost();
+        String contentName = getProperty("sys.plantform.content","tpf");
+        String wqPathName = getProperty("sys.plantform.wqPath","remoting");
+
+        return host+"/"+contentName+"/"+wqPathName+"/";
+    }
 }
