@@ -68,4 +68,25 @@ public class ResourceServiceController implements SysLogger{
             }
         }.exe(request, response);
     }
+
+    @RequestMapping(value = "/participantInfo/{pid}")
+    public void getParticipantInfo(HttpServletRequest request,HttpServletResponse response,
+                                   @PathVariable final String pid){
+        new AjaxExeTemplate() {
+            @Override
+            public Object doExe(HttpServletRequest request, HttpServletResponse response) throws Exception {
+                if (!AssertUtils.assertNotNullAndBlank(pid)){
+                    throw new Exception("pid is error");
+                }
+
+                String participantInfo = yawlrsClient.getParticipantInfo(pid);
+                return participantInfo;
+            }
+
+            @Override
+            public void holdException(HttpServletRequest request, HttpServletResponse respose, Exception ex) {
+
+            }
+        }.exe(request, response);
+    }
 }

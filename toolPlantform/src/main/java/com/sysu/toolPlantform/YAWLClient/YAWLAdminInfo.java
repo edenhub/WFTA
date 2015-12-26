@@ -12,6 +12,8 @@ public class YAWLAdminInfo {
 
     private String wqGatewayUrl;
 
+    private String interfaceBUrl;
+
     public String getUsername() {
         return username;
     }
@@ -42,5 +44,13 @@ public class YAWLAdminInfo {
 
     public void setWqGatewayUrl(String wqGatewayUrl) {
         this.wqGatewayUrl = wqGatewayUrl;
+    }
+
+    public String getInterfaceBUrl() {
+        return interfaceBUrl;
+    }
+
+    public void setInterfaceBUrl(String interfaceBUrl) {
+        this.interfaceBUrl = interfaceBUrl;
     }
 }

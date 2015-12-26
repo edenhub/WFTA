@@ -78,4 +78,11 @@ public class YAWLRSClientImpl implements YAWLRSClient{
         String ret = rsGatewayClient.getParticipantRoles(pid,handler);
         return ret;
     }
+
+    @Override
+    public String getParticipantInfo(String pid) throws IOException{
+        keepSession();
+        String pInfo = rsGatewayClient.getParticipant(pid,handler);
+        return pInfo;
+    }
 }

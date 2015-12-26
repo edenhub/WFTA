@@ -37,6 +37,9 @@ public class WorkQueueServiceController implements SysLogger{
         final String itemId = params.getStringParam("itemId");
         final String handler = params.getStringParam("handler");
 
+        System.out.println(itemId);
+        System.out.println(handler);
+
         new AjaxExeTemplate() {
             @Override
             public Object doExe(HttpServletRequest request, HttpServletResponse response) throws Exception {

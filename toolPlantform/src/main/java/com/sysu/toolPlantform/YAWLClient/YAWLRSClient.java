@@ -16,4 +16,6 @@ public interface YAWLRSClient {
     public String getRoles() throws IOException;
 
     public String getParticipantRoles(String pid) throws IOException;
+
+    String getParticipantInfo(String pid) throws IOException;
 }

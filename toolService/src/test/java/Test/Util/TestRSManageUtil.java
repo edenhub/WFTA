@@ -2,6 +2,7 @@ package Test.Util;
 
 import com.sysu.toolService.util.ResourceManagerUtil;
 import org.junit.Test;
+import org.yawlfoundation.yawl.resourcing.resource.Participant;
 import org.yawlfoundation.yawl.resourcing.resource.Role;
 import org.yawlfoundation.yawl.resourcing.rsInterface.ResourceGatewayException;
 
@@ -31,5 +32,15 @@ public class TestRSManageUtil {
             System.out.println(role.getID());
             System.out.println(role.getName());
         }
+    }
+
+    @Test
+    public void testParticipantInfo() throws IOException, ResourceGatewayException {
+        String pid = "PA-2ac65bb2-7b9a-4a78-8f0a-24de1385fc2a";
+
+        Participant pat = ResourceManagerUtil.requestParticipantInstance(pid);
+
+        System.out.println(pat.toXML());
+        System.out.println(pat.getFullName());
     }
 }

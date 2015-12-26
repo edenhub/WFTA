@@ -27,6 +27,7 @@
         <property name="password" value="${admin.info.password}"/>
         <property name="rsGatewayUrl" value="${admin.info.rs.gateway.url}"/>
         <property name="wqGatewayUrl" value="${admin.info.wq.gateway.url}"/>
+        <property name="interfaceBUrl" value="${admin.info.interface.ib.url}"/>
     </bean>
 
     <import resource="remoting-servlet.xml"/>

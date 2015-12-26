@@ -8,8 +8,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.jdom.Element;
 import org.yawlfoundation.yawl.resourcing.resource.AbstractResourceAttribute;
+import org.yawlfoundation.yawl.resourcing.resource.Participant;
 import org.yawlfoundation.yawl.resourcing.resource.Role;
 import org.yawlfoundation.yawl.resourcing.rsInterface.ResourceGatewayException;
+import org.yawlfoundation.yawl.resourcing.rsInterface.ResourceMarshaller;
 import org.yawlfoundation.yawl.util.JDOMUtil;
 
 import java.io.IOException;
@@ -22,17 +24,21 @@ import java.util.List;
 public class ResourceManagerUtil {
 
     private static SystemInfoProperties sysInfo;
+    private static ResourceMarshaller resourceMarshaller;
 
     private ResourceManagerUtil(){
     }
 
     static {
         sysInfo = SystemInfoProperties.getInstance();
+        resourceMarshaller = new ResourceMarshaller();
     }
 
     private static final String ROLES_PATH = "roles";
 
     private static final String PARTI2ROLES_PATH_PRE = "participantRoles/";
+
+    private static final String PARTIINFO_PATH_PRE = "participantInfo/";
 
 
 
@@ -147,6 +153,24 @@ public class ResourceManagerUtil {
             rsStr = successCheck(rsStr);
             List ret = xmlStringToResourceAttributeList(rsStr,"Role");
             return ret;
+        }else{
+            throw new IOException(result.getMsg(),result.getError());
+        }
+    }
+
+    public static Participant requestParticipantInstance(String pid) throws IOException, ResourceGatewayException {
+        String url = sysInfo.getPlantFormRSPath()+PARTIINFO_PATH_PRE+pid;
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(url);
+
+        ResponseHandler<ResultInfo> rh = new ResultInfoResponseHandler();
+
+        ResultInfo result = httpClient.execute(httpGet,rh);
+
+        if (result.isSuccess()){
+            String pStr = (String)result.getData();
+            pStr = successCheck(pStr);
+            return resourceMarshaller.unmarshallParticipant(pStr);
         }else{
             throw new IOException(result.getMsg(),result.getError());
         }

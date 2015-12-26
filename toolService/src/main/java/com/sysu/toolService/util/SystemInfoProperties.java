@@ -51,4 +51,12 @@ public class SystemInfoProperties extends Properties implements SysLogger{
 
         return host+"/"+contentName+"/"+wqPathName+"/";
     }
+
+    public String getPlantFormInterfaceBPath(){
+        String host = getPlantFormHost();
+        String contentName = getProperty("sys.platnform.content","tpf");
+        String ibPathName = getProperty("sys.plantform.ibPath","remoting");
+
+        return host+"/"+contentName+"/"+ibPathName+"/";
+    }
 }
