@@ -8,6 +8,14 @@ import com.sysu.toolCommons.util.SysLogger;
  */
 public class LogActionEasyCache<K,V> extends EasyCacheAdapter<K,V> implements SysLogger {
 
+    public LogActionEasyCache(String name){
+        super(name);
+    }
+
+    public LogActionEasyCache(String name,long period,long live){
+        super(name,period,live);
+    }
+
     @Override
     protected boolean beforeGetCache(K key) {
         if (logger.isInfoEnabled())

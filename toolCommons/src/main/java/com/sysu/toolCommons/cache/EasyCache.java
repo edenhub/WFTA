@@ -83,7 +83,7 @@ public abstract class EasyCache<K,V> {
         @Override
         public void run() {
             if (logger.isInfoEnabled()){
-                logger.info("DemoTimer start execute");
+                logger.info("DemoTimer : "+ getDemoName() +" start execute");
             }
 
             //TODO:测试
@@ -104,7 +104,7 @@ public abstract class EasyCache<K,V> {
             }
 
             if (logger.isInfoEnabled()){
-                logger.info("DemoTimer end execute");
+                logger.info("DemoTimer : "+ getDemoName() +" end execute");
             }
         }
     }
@@ -123,13 +123,15 @@ public abstract class EasyCache<K,V> {
 
     private Timer demoRunner;
 
+    private String demoName;
+
     //time the cache can save
     private long live;
 
     private boolean isShutDown = false;
 
     //默认5分钟清理缓存
-    public EasyCache(){
+    public EasyCache(String name){
         lock = new ReentrantLock();
         period = 1000 * 60 * 5;
         live = 1000 * 60 * 5;
@@ -137,13 +139,15 @@ public abstract class EasyCache<K,V> {
         cacheCntner = new HashMap<K, V>();
         cacheTag = new HashMap<K, Long>();
 
-        demoRunner = new Timer();
+        this.demoName = name;
+
+        demoRunner = new Timer(demoName);
 
         startDemoRunner();
     }
 
-    public EasyCache(long period,long live){
-        this();
+    public EasyCache(String name,long period,long live){
+        this(name);
         this.period = period;
         this.live = live;
         startDemoRunner();
@@ -217,4 +221,32 @@ public abstract class EasyCache<K,V> {
     }
 
     /********************   Main Function ********************/
+
+    public long getLive() {
+        return live;
+    }
+
+    public void setLive(long live) {
+        this.live = live;
+    }
+
+    public void setShutDown(boolean isShutDown) {
+        this.isShutDown = isShutDown;
+    }
+
+    public long getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(long period) {
+        this.period = period;
+    }
+
+    public String getDemoName() {
+        return demoName;
+    }
+
+    public void setDemoName(String demoName) {
+        this.demoName = demoName;
+    }
 }
