@@ -89,14 +89,19 @@ public abstract class EasyCache<K,V> {
             //TODO:测试
             lock.lock();
             try{
-                if (cacheTag.size() == 0) return;
+                if (cacheTag.size() == 0) {
+                    if (logger.isInfoEnabled()){
+                        logger.info("DemoTimer : "+ getDemoName() +" end execute for empty cache");
+                    }
+                    return;
+                }
                 long currentTime = System.currentTimeMillis();
                 for(K k : cacheTag.keySet()){
                     Long preTime = cacheTag.get(k);
                     if (preTime == null) continue;
                     long step = currentTime - preTime;
                     if (step > live){
-                        remoteCache(k);
+                        removeCache(k);
                     }
                 }
             }finally {
@@ -104,7 +109,7 @@ public abstract class EasyCache<K,V> {
             }
 
             if (logger.isInfoEnabled()){
-                logger.info("DemoTimer : "+ getDemoName() +" end execute");
+                logger.info("DemoTimer : "+ getDemoName() +" end execute for remove action");
             }
         }
     }
@@ -200,7 +205,7 @@ public abstract class EasyCache<K,V> {
         }
     }
 
-    public V remoteCache(K key){
+    public V removeCache(K key){
         lock.lock();
         V value = null;
         try{
