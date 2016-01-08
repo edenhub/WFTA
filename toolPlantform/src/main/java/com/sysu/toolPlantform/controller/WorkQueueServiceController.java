@@ -37,8 +37,8 @@ public class WorkQueueServiceController implements SysLogger{
         final String itemId = params.getStringParam("itemId");
         final String handler = params.getStringParam("handler");
 
-        System.out.println(itemId);
-        System.out.println(handler);
+//        System.out.println(itemId);
+//        System.out.println(handler);
 
         new AjaxExeTemplate() {
             @Override
@@ -56,7 +56,86 @@ public class WorkQueueServiceController implements SysLogger{
                 logger.error("getWorkitem error ",ex);
             }
         }.exe(request, response);
+    }
 
+    @RequestMapping("/updateWorkItem")
+    public void updateWorkItem(HttpServletRequest request,HttpServletResponse response){
+        ParameterUtil params = new ParameterUtil(request);
+        final String itemId = params.getStringParam("itemId");
+        final String handle = params.getStringParam("handle");
+        final String updateStr = params.getStringParam("updateStr");
 
+        new AjaxExeTemplate() {
+            @Override
+            public Object doExe(HttpServletRequest request, HttpServletResponse response) throws Exception {
+                if (!AssertUtils.assertNotNullAndBlank(itemId) || !AssertUtils.assertNotNullAndBlank(handle)) {
+                    throw new Exception("itemId or handler is error");
+                }
+
+                String ret = yawlwqClient.updateWorkItem(itemId,handle,updateStr);
+                return ret;
+            }
+
+            @Override
+            public void holdException(HttpServletRequest request, HttpServletResponse respose, Exception ex) {
+                logger.error("update workitem error ",ex);
+            }
+        }.exe(request, response);
+    }
+
+    @RequestMapping("/completeWorkItem")
+    public void completeWorkItem(HttpServletRequest request,HttpServletResponse response){
+        ParameterUtil params = new ParameterUtil(request);
+        final String pid = params.getStringParam("pid");
+        final String handle = params.getStringParam("handle");
+        final String itemId = params.getStringParam("itemId");
+
+        new AjaxExeTemplate() {
+            @Override
+            public Object doExe(HttpServletRequest request, HttpServletResponse response) throws Exception {
+                if (!AssertUtils.assertNotNullAndBlank(itemId) ||
+                        !AssertUtils.assertNotNullAndBlank(handle) ||
+                        !AssertUtils.assertNotNullAndBlank(pid)) {
+                    throw new Exception("itemId or handler is error");
+                }
+
+                String ret = yawlwqClient.completeWorkItem(pid,itemId,handle);
+                return ret;
+            }
+
+            @Override
+            public void holdException(HttpServletRequest request, HttpServletResponse respose, Exception ex) {
+                logger.error("complate workitem error",ex);
+            }
+        }.exe(request, response);
+    }
+
+    @RequestMapping("/updateAndCompleteWI")
+    public void updateAndCompleteWorkItem(HttpServletRequest request,HttpServletResponse response){
+        ParameterUtil params = new ParameterUtil(request);
+        final String pid = params.getStringParam("pid");
+        final String itemId = params.getStringParam("itemId");
+        final String handle = params.getStringParam("handle");
+        final String updateStr = params.getStringParam("updateStr");
+
+        new AjaxExeTemplate() {
+            @Override
+            public Object doExe(HttpServletRequest request, HttpServletResponse response) throws Exception {
+                if (!AssertUtils.assertNotNullAndBlank(itemId) ||
+                        !AssertUtils.assertNotNullAndBlank(handle) ||
+                        !AssertUtils.assertNotNullAndBlank(pid) ||
+                        !AssertUtils.assertNotNullAndBlank(updateStr)) {
+                    throw new Exception("itemId or handler is error");
+                }
+
+                String ret = yawlwqClient.updateAndCompleteWorkItem(itemId,handle,updateStr,pid);
+                return ret;
+            }
+
+            @Override
+            public void holdException(HttpServletRequest request, HttpServletResponse respose, Exception ex) {
+                logger.error("update and complate workItem error",ex);
+            }
+        }.exe(request, response);
     }
 }
