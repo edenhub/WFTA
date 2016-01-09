@@ -29,9 +29,13 @@ public interface YAWLWQClient {
      */
     public String getWorkItem(String itemId,String handler) throws IOException;
 
+    String getWorkItemParams(String itemId, String handle) throws IOException;
+
     String updateWorkItem(String itemId, String handler, String updateStr) throws IOException;
 
-    String completeWorkItem(String pid, String itemId, String handle) throws IOException;
+    String completeWorkItem(String pid, String itemId) throws IOException;
 
     String updateAndCompleteWorkItem(String itemId, String handle, String updateStr, String pid) throws IOException;
+
+    boolean isSuccess(String str);
 }
