@@ -130,6 +130,7 @@ public class WorkItemParamParser {
             param.setName(name);
             param.setType(type);
             param.setDefaultValue(defaultValue);
+            param.setOutput(true);
 
             retParams.addOutputParam(param);
             retParams.addParam(param);
@@ -148,6 +149,7 @@ public class WorkItemParamParser {
             param.setName(name);
             param.setType(type);
             param.setDefaultValue(defaultValue);
+            param.setOutput(true);
 
             retParams.addInputParam(param);
             retParams.addParam(param);

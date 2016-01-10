@@ -65,6 +65,7 @@ public class WorkItemParams {
 
         private String defaultValue;
 
+        private boolean isOutput;
 
         public int getIndex() {
             return index;
@@ -106,6 +107,14 @@ public class WorkItemParams {
             this.defaultValue = defaultValue;
         }
 
+        public boolean isOutput() {
+            return isOutput;
+        }
+
+        public void setOutput(boolean isOutput) {
+            this.isOutput = isOutput;
+        }
+
         @Override
         public String toString() {
             return "WorkItemParam{" +
@@ -114,6 +123,7 @@ public class WorkItemParams {
                     ", name='" + name + '\'' +
                     ", type='" + type + '\'' +
                     ", defaultValue='" + defaultValue + '\'' +
+                    ", isOutput=" + isOutput +
                     '}';
         }
     }
