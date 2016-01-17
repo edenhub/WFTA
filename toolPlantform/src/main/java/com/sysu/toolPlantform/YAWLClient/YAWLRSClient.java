@@ -1,5 +1,7 @@
 package com.sysu.toolPlantform.YAWLClient;
 
+import org.yawlfoundation.yawl.resourcing.rsInterface.ResourceGatewayClient;
+
 import java.io.IOException;
 
 /**
@@ -11,7 +13,7 @@ public interface YAWLRSClient {
      * 保证会话有效,YAWL的会话是通过handler来标示，handler有生存时间，所以要经常变换
      * @throws IOException
      */
-    void keepSession() throws IOException;
+    void keepSession(ResourceGatewayClient rsGatewayClient) throws IOException;
 
     public String getRoles() throws IOException;
 

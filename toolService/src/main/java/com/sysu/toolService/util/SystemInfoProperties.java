@@ -34,29 +34,33 @@ public class SystemInfoProperties extends Properties implements SysLogger{
     private SystemInfoProperties(){}
 
     public String getPlantFormHost(){
-        return getProperty("sys.plantform.host","http://localhost:8082");
+        return getProperty("sys.platform.host","http://localhost:8082");
     }
 
     public String getPlantFormRSPath(){
         String host = getPlantFormHost();
-        String contentName = getProperty("sys.plantform.content","tpf");
-        String rsPathName = getProperty("sys.plantform.rsPath", "remoting");
+        String contentName = getProperty("sys.platform.content","tpf");
+        String rsPathName = getProperty("sys.platform.rsPath", "remoting");
         return host+"/"+contentName+"/"+rsPathName+"/";
     }
 
     public String getPlantFormWQPath(){
         String host = getPlantFormHost();
-        String contentName = getProperty("sys.plantform.content","tpf");
-        String wqPathName = getProperty("sys.plantform.wqPath","remoting");
+        String contentName = getProperty("sys.platform.content","tpf");
+        String wqPathName = getProperty("sys.platform.wqPath","remoting");
 
         return host+"/"+contentName+"/"+wqPathName+"/";
     }
 
     public String getPlantFormInterfaceBPath(){
         String host = getPlantFormHost();
-        String contentName = getProperty("sys.platnform.content","tpf");
-        String ibPathName = getProperty("sys.plantform.ibPath","remoting");
+        String contentName = getProperty("sys.platform.content","tpf");
+        String ibPathName = getProperty("sys.platform.ibPath","remoting");
 
         return host+"/"+contentName+"/"+ibPathName+"/";
+    }
+
+    public String getPlatformInterfaceCURL(){
+        return getProperty("sys.platform.interfaceC.url","http://localhost:8082/ic/");
     }
 }

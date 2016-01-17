@@ -20,7 +20,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Component
 public class YAWLWQClientImpl implements YAWLWQClient{
 
-    private WorkQueueGatewayClient wqGatewayClient;
+//    private WorkQueueGatewayClient wqGatewayClient;
 
     private String handler;
 
@@ -41,12 +41,17 @@ public class YAWLWQClientImpl implements YAWLWQClient{
     @PostConstruct
     @Override
     public void init() {
-        wqGatewayClient = new WorkQueueGatewayClient(adminInfo.getWqGatewayUrl());
+//        wqGatewayClient = new WorkQueueGatewayClient(adminInfo.getWqGatewayUrl());
         lock = new ReentrantLock();
     }
 
+    protected WorkQueueGatewayClient newWorkQueueGatewayClientInstance(){
+        WorkQueueGatewayClient wqGatewayClient = new WorkQueueGatewayClient(adminInfo.getWqGatewayUrl());
+        return wqGatewayClient;
+    }
+
     @Override
-    public void keepSession() throws IOException {
+    public void keepSession(WorkQueueGatewayClient wqGatewayClient) throws IOException {
         lock.lock();
 
         try {
@@ -65,12 +70,14 @@ public class YAWLWQClientImpl implements YAWLWQClient{
 
     @Override
     public String getWorkItem(String itemId,String handler) throws IOException {
+        WorkQueueGatewayClient wqGatewayClient = newWorkQueueGatewayClientInstance();
         String item = wqGatewayClient.getWorkItem(itemId,handler);
         return item;
     }
 
     @Override
     public String getWorkItemParams(String itemId,String handle) throws IOException{
+        WorkQueueGatewayClient wqGatewayClient = newWorkQueueGatewayClientInstance();
         String schema = wqGatewayClient.getWorkItemParameters(itemId,handle);
 
         return schema;
@@ -78,13 +85,16 @@ public class YAWLWQClientImpl implements YAWLWQClient{
 
     @Override
     public String updateWorkItem(String itemId, String handler, String updateStr) throws IOException{
+        WorkQueueGatewayClient wqGatewayClient = newWorkQueueGatewayClientInstance();
+
         String retStr = wqGatewayClient.updateWorkItemData(itemId, updateStr, handler);
         return retStr;
     }
 
     @Override
     public String completeWorkItem(String pid, String itemId) throws IOException{
-        keepSession();
+        WorkQueueGatewayClient wqGatewayClient = newWorkQueueGatewayClientInstance();
+        keepSession(wqGatewayClient);
         String ret = wqGatewayClient.completeItem(pid,itemId,this.handler);
 
         return ret;
@@ -93,6 +103,7 @@ public class YAWLWQClientImpl implements YAWLWQClient{
     @Override
     public String updateAndCompleteWorkItem(String itemId, String handle, String updateStr, String pid)
             throws IOException{
+        WorkQueueGatewayClient wqGatewayClient = newWorkQueueGatewayClientInstance();
         String updateRet = updateWorkItem(itemId,handle,updateStr);
         if (!wqGatewayClient.successful(updateRet)){
             return updateRet;
@@ -107,6 +118,7 @@ public class YAWLWQClientImpl implements YAWLWQClient{
 
     @Override
     public boolean isSuccess(String str){
+        WorkQueueGatewayClient wqGatewayClient = newWorkQueueGatewayClientInstance();
         return wqGatewayClient.successful(str);
     }
 }

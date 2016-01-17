@@ -1,6 +1,7 @@
 package com.sysu.toolPlantform.YAWLClient;
 
 import org.yawlfoundation.yawl.engine.YSpecificationID;
+import org.yawlfoundation.yawl.resourcing.rsInterface.WorkQueueGatewayClient;
 
 import java.io.IOException;
 
@@ -18,7 +19,7 @@ public interface YAWLWQClient {
      * 保持会话有效
      * @throws IOException
      */
-    public void keepSession() throws IOException;
+    public void keepSession(WorkQueueGatewayClient wqGatewayClient) throws IOException;
 
     /**
      * 获得task的xml描述

@@ -41,7 +41,7 @@ public class WorkQueueManagerUtil {
 
     private static ResourceMarshaller resourceMarshaller;
 
-    private WorkQueueManagerUtil(){
+    private WorkQueueManagerUtil() {
     }
 
     static {
@@ -49,48 +49,51 @@ public class WorkQueueManagerUtil {
         resourceMarshaller = new ResourceMarshaller();
     }
 
-    public static String requestWorkItemString(String itemId,String handler) throws IOException {
-        String url = sysInfo.getPlantFormWQPath()+WORKITEM_PATH+"?itemId="+itemId+"&handler="+handler;
+    public static String requestWorkItemString(String itemId, String handler)
+            throws IOException {
+        String url = sysInfo.getPlantFormWQPath() + WORKITEM_PATH + "?itemId=" + itemId + "&handler=" + handler;
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
 
         ResponseHandler<ResultInfo> rh = new ResultInfoResponseHandler();
 
-        ResultInfo result = httpClient.execute(httpGet,rh);
+        ResultInfo result = httpClient.execute(httpGet, rh);
 
-        if (result.isSuccess()){
+        if (result.isSuccess()) {
 
-            String itemStr = (String)result.getData();
+            String itemStr = (String) result.getData();
 
             return itemStr;
-        }else{
-            throw new IOException(result.getMsg(),result.getError());
+        } else {
+            throw new IOException(result.getMsg(), result.getError());
         }
     }
 
-    public static WorkItemRecord requestWorkItemInstance(String itemId,String handler) throws IOException {
-        String retStr = requestWorkItemString(itemId,handler);
+    public static WorkItemRecord requestWorkItemInstance(String itemId, String handler)
+            throws IOException {
+        String retStr = requestWorkItemString(itemId, handler);
         WorkItemRecord workItemRecord = resourceMarshaller.unmarshallWorkItemRecord(retStr);
 
         return workItemRecord;
     }
 
-    public static ResultInfo requestWorkItemParams(String itemId,String handle) throws IOException, DocumentException {
-        String url = sysInfo.getPlantFormWQPath()+WORKITEM_PARAM_PATH;
+    public static ResultInfo requestWorkItemParams(String itemId, String handle)
+            throws IOException, DocumentException {
+        String url = sysInfo.getPlantFormWQPath() + WORKITEM_PARAM_PATH;
         CloseableHttpClient httpClients = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
         List<NameValuePair> requestParams = new ArrayList<NameValuePair>();
-        requestParams.add(new BasicNameValuePair("itemId",itemId));
-        requestParams.add(new BasicNameValuePair("handle",handle));
+        requestParams.add(new BasicNameValuePair("itemId", itemId));
+        requestParams.add(new BasicNameValuePair("handle", handle));
 
-        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(requestParams,"UTF-8");
+        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(requestParams, "UTF-8");
         httpPost.setEntity(formEntity);
 
         ResponseHandler<ResultInfo> rh = new ResultInfoResponseHandler();
-        ResultInfo result = httpClients.execute(httpPost,rh);
+        ResultInfo result = httpClients.execute(httpPost, rh);
 
-        if (result.getError() == null){
+        if (result.getError() == null) {
             String paramStr = (String) result.getData();
             WorkItemParams workItemParams = WorkItemParamParser.getInstance()
                     .parse(paramStr, WorkItemParamParser.OrderType.Ordering);
@@ -100,61 +103,63 @@ public class WorkQueueManagerUtil {
         return result;
     }
 
-    public static ResultInfo updateWorkItemData(String itemId,String handle,String updateStr) throws IOException{
-        String url = sysInfo.getPlantFormWQPath()+UPDATE_WORKITEM_PATH;
+    public static ResultInfo updateWorkItemData(String itemId, String handle,
+                                                String updateStr) throws IOException {
+        String url = sysInfo.getPlantFormWQPath() + UPDATE_WORKITEM_PATH;
         CloseableHttpClient httpClients = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
         List<NameValuePair> requestParams = new ArrayList<NameValuePair>();
-        requestParams.add(new BasicNameValuePair("itemId",itemId));
-        requestParams.add(new BasicNameValuePair("handle",handle));
-        requestParams.add(new BasicNameValuePair("updateStr",updateStr));
+        requestParams.add(new BasicNameValuePair("itemId", itemId));
+        requestParams.add(new BasicNameValuePair("handle", handle));
+        requestParams.add(new BasicNameValuePair("updateStr", updateStr));
 
-        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(requestParams,"UTF-8");
+        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(requestParams, "UTF-8");
         httpPost.setEntity(formEntity);
 
         ResponseHandler<ResultInfo> rh = new ResultInfoResponseHandler();
-        ResultInfo result = httpClients.execute(httpPost,rh);
+        ResultInfo result = httpClients.execute(httpPost, rh);
 
         return result;
     }
 
-    public static ResultInfo completeWorkItemData(String itemId,String handle,String pid) throws IOException{
-        String url = sysInfo.getPlantFormWQPath()+COMPLETE_WORKITEM_PATH;
+    public static ResultInfo completeWorkItemData(String itemId, String pid) throws IOException {
+        String url = sysInfo.getPlantFormWQPath() + COMPLETE_WORKITEM_PATH;
         CloseableHttpClient httpClients = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
         List<NameValuePair> requestParams = new ArrayList<NameValuePair>();
-        requestParams.add(new BasicNameValuePair("itemId",itemId));
-        requestParams.add(new BasicNameValuePair("pid",pid));
+        requestParams.add(new BasicNameValuePair("itemId", itemId));
+        requestParams.add(new BasicNameValuePair("pid", pid));
 
-        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(requestParams,"UTF-8");
+        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(requestParams, "UTF-8");
         httpPost.setEntity(formEntity);
 
         ResponseHandler<ResultInfo> rh = new ResultInfoResponseHandler();
-        ResultInfo result = httpClients.execute(httpPost,rh);
+        ResultInfo result = httpClients.execute(httpPost, rh);
 
         return result;
     }
 
-    public static ResultInfo updateAndCompleteWorkItemData(String itemId,String handle,String pid,String updateStr) throws IOException{
-        String url = sysInfo.getPlantFormWQPath()+UPDATE_AND_COMPLETE_PATH;
+    public static ResultInfo updateAndCompleteWorkItemData(String itemId, String handle,
+                                                           String pid, String updateStr) throws IOException {
+        String url = sysInfo.getPlantFormWQPath() + UPDATE_AND_COMPLETE_PATH;
         CloseableHttpClient httpClients = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
         List<NameValuePair> requestParams = new ArrayList<NameValuePair>();
-        requestParams.add(new BasicNameValuePair("itemId",itemId));
-        requestParams.add(new BasicNameValuePair("handle",handle));
-        requestParams.add(new BasicNameValuePair("pid",pid));
-        requestParams.add(new BasicNameValuePair("updateStr",updateStr));
+        requestParams.add(new BasicNameValuePair("itemId", itemId));
+        requestParams.add(new BasicNameValuePair("handle", handle));
+        requestParams.add(new BasicNameValuePair("pid", pid));
+        requestParams.add(new BasicNameValuePair("updateStr", updateStr));
 
-        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(requestParams,"UTF-8");
+        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(requestParams, "UTF-8");
         httpPost.setEntity(formEntity);
 
         ResponseHandler<ResultInfo> rh = new ResultInfoResponseHandler();
-        ResultInfo result = httpClients.execute(httpPost,rh);
+        ResultInfo result = httpClients.execute(httpPost, rh);
 
         return result;
     }
 
     private static boolean successful(String result) {
-        return (result != null) && (! result.startsWith("<failure>"));
+        return (result != null) && (!result.startsWith("<failure>"));
     }
 }

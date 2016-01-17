@@ -18,11 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Component
 public class YAWLRSClientImpl implements YAWLRSClient{
 
-    private ResourceGatewayClient rsGatewayClient;
-
-    public ResourceGatewayClient getRsGatewayClient() {
-        return rsGatewayClient;
-    }
+//    private ResourceGatewayClient rsGatewayClient;
 
     @Autowired
     @Qualifier("YAWLAdminInfo")
@@ -42,12 +38,17 @@ public class YAWLRSClientImpl implements YAWLRSClient{
 
     @PostConstruct
     public void init(){
-        rsGatewayClient = new ResourceGatewayClient(adminInfo.getRsGatewayUrl());
+//        rsGatewayClient = new ResourceGatewayClient(adminInfo.getRsGatewayUrl());
         lock = new ReentrantLock();
     }
 
+    protected ResourceGatewayClient newResourceGatewayClientInstance(){
+        ResourceGatewayClient rsGatewayClient = new ResourceGatewayClient(adminInfo.getRsGatewayUrl());
+        return rsGatewayClient;
+    }
+
     @Override
-    public void keepSession() throws IOException {
+    public void keepSession(ResourceGatewayClient rsGatewayClient) throws IOException {
         lock.lock();
 
         try{
@@ -67,21 +68,24 @@ public class YAWLRSClientImpl implements YAWLRSClient{
 
     @Override
     public String getRoles() throws IOException {
-        keepSession();
+        ResourceGatewayClient rsGatewayClient = newResourceGatewayClientInstance();
+        keepSession(rsGatewayClient);
         String ret = rsGatewayClient.getRoles(handler);
         return ret;
     }
 
     @Override
     public String getParticipantRoles(String pid) throws IOException {
-        keepSession();
+        ResourceGatewayClient rsGatewayClient = newResourceGatewayClientInstance();
+        keepSession(rsGatewayClient);
         String ret = rsGatewayClient.getParticipantRoles(pid,handler);
         return ret;
     }
 
     @Override
     public String getParticipantInfo(String pid) throws IOException{
-        keepSession();
+        ResourceGatewayClient rsGatewayClient = newResourceGatewayClientInstance();
+        keepSession(rsGatewayClient);
         String pInfo = rsGatewayClient.getParticipant(pid,handler);
         return pInfo;
     }

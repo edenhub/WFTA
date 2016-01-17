@@ -53,7 +53,7 @@ public class TestWQGatewayManageUtil {
         String handle = "7f453a46-9497-4bac-80fe-4bd18be295ec";
         String pid = "PA-2ac65bb2-7b9a-4a78-8f0a-24de1385fc2a";
 
-        ResultInfo resultInfo = WorkQueueManagerUtil.completeWorkItemData(itemId, handle, pid);
+        ResultInfo resultInfo = WorkQueueManagerUtil.completeWorkItemData(itemId, pid);
 
         System.out.println(resultInfo);
         resultInfo.getError().printStackTrace();
