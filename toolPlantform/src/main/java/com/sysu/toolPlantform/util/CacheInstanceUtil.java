@@ -16,11 +16,20 @@ public class CacheInstanceUtil {
                 configProperties.getSessionCachePeriod(),
                 configProperties.getSessionCacheLive()
         );
+
+        appCache = new LogActionEasyCache<String, String>(
+                configProperties.getAppCacheName(),
+                configProperties.getAppCachePeriod(),
+                configProperties.getAppCacheLive()
+        );
     }
 
     private static CacheInstanceUtil instance = new CacheInstanceUtil();
 
+    //appName or WFMSNAME -> handle
     private EasyCache<String,String> sessionCache;
+
+    private EasyCache<String,String> appCache;
 
     public static CacheInstanceUtil getInstance() {
         return instance;
@@ -28,5 +37,9 @@ public class CacheInstanceUtil {
 
     public EasyCache<String, String> getSessionCache() {
         return sessionCache;
+    }
+
+    public EasyCache<String, String> getAppCache() {
+        return appCache;
     }
 }

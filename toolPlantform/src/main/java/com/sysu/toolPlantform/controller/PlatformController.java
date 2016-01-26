@@ -28,7 +28,15 @@ public class PlatformController {
         this.icWebSideService = icWebSideService;
     }
 
-    @RequestMapping("connect")
+    @RequestMapping("/formServiceGateway")
+    public String formServiceGateway(HttpServletRequest request,HttpServletResponse response){
+        System.out.println("form service gateway");
+
+        //加域可以跨域
+        return "redirect:http://www.baidu.com?aa=www";
+    }
+
+    @RequestMapping("/connect")
     public void actionConnect(HttpServletRequest request,HttpServletResponse response){
         ParameterUtil params = new ParameterUtil(request);
         final String WFMSName = params.getStringParam("WFMSName");
@@ -47,7 +55,7 @@ public class PlatformController {
         }.exe(request, response);
     }
 
-    @RequestMapping("disconnect")
+    @RequestMapping("/disconnect")
     public void actionDisConnect(HttpServletRequest request,HttpServletResponse response){
         ParameterUtil params = new ParameterUtil(request);
         final String WFMSName = params.getStringParam("WFMSName");
@@ -63,6 +71,74 @@ public class PlatformController {
             @Override
             public void holdException(HttpServletRequest request, HttpServletResponse respose, Exception ex) {
                 logger.error("disconnect error",ex);
+            }
+        }.exe(request, response);
+    }
+
+    @RequestMapping("/invoke")
+    public void actionInvoke(HttpServletRequest request,HttpServletResponse response){
+        ParameterUtil params = new ParameterUtil(request);
+        final String WFMSName = params.getStringParam("WFMSName");
+        final String handle = params.getStringParam("handle");
+        final String appName = params.getStringParam("appName");
+        final String specInstId = params.getStringParam("specInstId");
+        final String workItemId = params.getStringParam("workItemId");
+
+//        System.out.println(WFMSName+"\n"+handle+"\n"+appName+"\n"+specInstId+"\n"+workItemId);
+
+        new AjaxExeTemplate() {
+            @Override
+            public Object doExe(HttpServletRequest request, HttpServletResponse response) throws Exception {
+                return icWebSideService.invokeApplication(WFMSName,handle,appName,specInstId,workItemId);
+            }
+
+            @Override
+            public void holdException(HttpServletRequest request, HttpServletResponse respose, Exception ex) {
+                logger.error("actionInvoke error",ex);
+            }
+        }.exe(request, response);
+    }
+
+    @RequestMapping("/info")
+    public void actionRequestAppInfo(HttpServletRequest request,HttpServletResponse response){
+        ParameterUtil params = new ParameterUtil(request);
+        final String WFMSName = params.getStringParam("WFMSName");
+        final String handle = params.getStringParam("handle");
+        final String appName = params.getStringParam("appName");
+        final String specInstId = params.getStringParam("specInstId");
+        final String workItemId = params.getStringParam("workItemId");
+
+        new AjaxExeTemplate() {
+            @Override
+            public Object doExe(HttpServletRequest request, HttpServletResponse response) throws Exception {
+                return icWebSideService.requestAppStatus(WFMSName,handle,appName,specInstId,workItemId);
+            }
+
+            @Override
+            public void holdException(HttpServletRequest request, HttpServletResponse respose, Exception ex) {
+                logger.error("actionRequestAppInfo error",ex);
+            }
+        }.exe(request, response);
+    }
+
+    @RequestMapping("/terminate")
+    public void actionTerminate(HttpServletRequest request,HttpServletResponse response){
+        ParameterUtil params = new ParameterUtil(request);
+        final String WFMSName = params.getStringParam("WFMSName");
+        final String handle = params.getStringParam("handle");
+        final String appName = params.getStringParam("appName");
+        final String specInstId = params.getStringParam("specInstId");
+        final String workItemId = params.getStringParam("workItemId");
+
+        new AjaxExeTemplate() {
+            @Override
+            public Object doExe(HttpServletRequest request, HttpServletResponse response) throws Exception {
+                return icWebSideService.terminateApp(WFMSName,handle,appName,specInstId,workItemId);
+            }
+
+            @Override
+            public void holdException(HttpServletRequest request, HttpServletResponse respose, Exception ex) {
+                logger.error("actionTerminate error",ex);
             }
         }.exe(request, response);
     }

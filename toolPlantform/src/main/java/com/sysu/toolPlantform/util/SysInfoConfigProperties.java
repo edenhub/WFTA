@@ -54,4 +54,17 @@ public class SysInfoConfigProperties extends Properties implements SysLogger{
     public long getSessionCacheLive(){
         return calMultiplate(getProperty("config.cache.live.session","1000 * 60 * 30"));
     }
+
+
+    public String getAppCacheName(){
+        return getProperty("config.cache.name.app","Session_Cache");
+    }
+
+    public long getAppCachePeriod(){
+        return calMultiplate(getProperty("config.cache.period.app","1000 * 60 * 30"));
+    }
+
+    public long getAppCacheLive(){
+        return calMultiplate(getProperty("config.cache.live.app","1000 * 60 * 30"));
+    }
 }

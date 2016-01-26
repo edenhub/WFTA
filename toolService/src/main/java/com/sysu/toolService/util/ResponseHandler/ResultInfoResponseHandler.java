@@ -16,9 +16,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.Charset;
 
-/**
- * ******************   ResultInfoResponseHandler   ******************
- */
 public class ResultInfoResponseHandler implements ResponseHandler<ResultInfo> {
     private static Gson gson = new GsonBuilder().create();
 
@@ -44,4 +41,3 @@ public class ResultInfoResponseHandler implements ResponseHandler<ResultInfo> {
         return ri;
     }
 }
-/*********************   ResultInfoResponseHandler   *******************/

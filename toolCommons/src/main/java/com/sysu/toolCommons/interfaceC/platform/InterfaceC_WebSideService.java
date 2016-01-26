@@ -1,6 +1,9 @@
 package com.sysu.toolCommons.interfaceC.platform;
 
 import com.sysu.toolCommons.interfaceC.InterfaceC_Exeception;
+import com.sysu.toolCommons.result.ResultInfo;
+
+import java.util.Map;
 
 /**
  * 位于ToolAgents平台
@@ -25,4 +28,40 @@ public interface InterfaceC_WebSideService {
      * @return 成功与否
      */
     public void disconnect(String WFMSName,String handle) throws InterfaceC_Exeception;
+
+    /**
+     * 登录/验证/启动第三方应用
+     * @param WFMSName
+     * @param handle
+     * @param appName
+     * @return
+     * @throws InterfaceC_Exeception
+     */
+    boolean invokeApplication(String WFMSName, String handle,
+                              String appName, String spaceInstId,String workItemId)
+            throws InterfaceC_Exeception;
+
+    /**
+     * 判断第三方应用的运行状态
+     * @param WFMSName
+     * @param handle
+     * @param appName
+     * @return
+     * @throws InterfaceC_Exeception
+     */
+    int requestAppStatus(String WFMSName, String handle,
+                         String appName, String spaceInstId,String workItemId)
+            throws InterfaceC_Exeception;
+
+    /**
+     * 结束第三方应用的会话
+     * @param WFMSName
+     * @param handle
+     * @param appName
+     * @return
+     * @throws InterfaceC_Exeception
+     */
+    boolean terminateApp(String WFMSName, String handle,
+                         String appName, String spaceInstId,String workItemId)
+            throws InterfaceC_Exeception;
 }

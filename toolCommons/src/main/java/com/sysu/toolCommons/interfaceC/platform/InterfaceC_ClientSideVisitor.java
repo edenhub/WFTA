@@ -24,4 +24,43 @@ public interface InterfaceC_ClientSideVisitor {
      * @return 成功与否
      */
     public void disconnect(String WFMSName,String handle) throws Exception;
+
+    /**
+     * 为task的执行建立会话
+     * @param WFMSName
+     * @param handle
+     * @param appName
+     * @param specInstId
+     * @param workItemId
+     * @return
+     * @throws Exception
+     */
+    Boolean invokeApp(String WFMSName, String handle,
+                      String appName, String specInstId, String workItemId) throws Exception;
+
+    /**
+     * 判断第三方应用的状态
+     * @param WFMSName
+     * @param handle
+     * @param appName
+     * @param specInstId
+     * @param workItemId
+     * @return
+     * @throws Exception
+     */
+    Integer requestAppInfo(String WFMSName, String handle,
+                           String appName, String specInstId, String workItemId) throws Exception;
+
+    /**
+     * 结束task的该次会话
+     * @param WFMSName
+     * @param handle
+     * @param appName
+     * @param specInstId
+     * @param workItemId
+     * @return
+     * @throws Exception
+     */
+    Boolean terminateApp(String WFMSName, String handle,
+                         String appName, String specInstId, String workItemId) throws Exception;
 }
