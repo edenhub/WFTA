@@ -67,4 +67,27 @@ public class SysInfoConfigProperties extends Properties implements SysLogger{
     public long getAppCacheLive(){
         return calMultiplate(getProperty("config.cache.live.app","1000 * 60 * 30"));
     }
+
+    public String getWorkFlowToken(String WFMSName){
+        return getProperty("config.token."+WFMSName);
+    }
+
+    public String getAppToken(String appName){
+        return getProperty("config.app.token."+appName);
+    }
+
+    public String getAppUrl(String appName){
+        return getProperty("config.app.url."+appName);
+    }
+
+    public String getAppInvokeUrl(String appName){
+        String url =  getProperty("config.app.invoke.url."+appName);
+        String appUrl = getAppUrl(appName);
+        System.out.println(appName);
+        System.out.println(url);
+        System.out.println(appUrl);
+        if (!url.startsWith(appUrl)) return null;
+
+        return url;
+    }
 }

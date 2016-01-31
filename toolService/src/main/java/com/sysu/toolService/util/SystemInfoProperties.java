@@ -61,6 +61,6 @@ public class SystemInfoProperties extends Properties implements SysLogger{
     }
 
     public String getPlatformInterfaceCURL(){
-        return getProperty("sys.platform.interfaceC.url","http://localhost:8082/tpf/remoting/ic/");
+        return getProperty("sys.platform.interfaceC.url","http://localhost:8082/tpf/remoting/");
     }
 }

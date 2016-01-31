@@ -48,8 +48,8 @@ public interface InterfaceC_ClientSideVisitor {
      * @return
      * @throws Exception
      */
-    Integer requestAppInfo(String WFMSName, String handle,
-                           String appName, String specInstId, String workItemId) throws Exception;
+    String requestAppInfo(String WFMSName, String handle,
+                           String appName) throws Exception;
 
     /**
      * 结束task的该次会话

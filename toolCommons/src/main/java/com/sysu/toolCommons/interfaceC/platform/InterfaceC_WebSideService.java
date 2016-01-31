@@ -3,6 +3,7 @@ package com.sysu.toolCommons.interfaceC.platform;
 import com.sysu.toolCommons.interfaceC.InterfaceC_Exeception;
 import com.sysu.toolCommons.result.ResultInfo;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -39,7 +40,7 @@ public interface InterfaceC_WebSideService {
      */
     boolean invokeApplication(String WFMSName, String handle,
                               String appName, String spaceInstId,String workItemId)
-            throws InterfaceC_Exeception;
+            throws Exception;
 
     /**
      * 判断第三方应用的运行状态
@@ -49,8 +50,7 @@ public interface InterfaceC_WebSideService {
      * @return
      * @throws InterfaceC_Exeception
      */
-    int requestAppStatus(String WFMSName, String handle,
-                         String appName, String spaceInstId,String workItemId)
+    String requestAppStatus(String WFMSName, String handle, String appName)
             throws InterfaceC_Exeception;
 
     /**

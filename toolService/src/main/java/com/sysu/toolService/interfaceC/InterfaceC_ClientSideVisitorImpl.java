@@ -106,22 +106,22 @@ public class InterfaceC_ClientSideVisitorImpl implements InterfaceC_ClientSideVi
     }
 
     @Override
-    public Integer requestAppInfo(String WFMSName, String handle,
-                                  String appName, String specInstId, String workItemId) throws Exception{
+    public String requestAppInfo(String WFMSName, String handle,
+                                  String appName) throws Exception{
         String url = ROOT_URL+INFO_PATH;
         Map<String,String> params = new HashMap<String, String>();
         params.put("WFMSName",WFMSName);
         params.put("handle",handle);
         params.put("appName",appName);
-        params.put("specInstId",specInstId);
-        params.put("workItemId",workItemId);
+//        params.put("specInstId",specInstId);
+//        params.put("workItemId",workItemId);
 
         ResultInfo ri = requestPost(url,params);
         if (ri.getError() != null){
             throw new Exception(ri.getError());
         }
 
-        return (Integer)ri.getData();
+        return (String)ri.getData();
     }
 
     @Override

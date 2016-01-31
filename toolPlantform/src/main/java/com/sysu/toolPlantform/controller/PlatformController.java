@@ -28,6 +28,14 @@ public class PlatformController {
         this.icWebSideService = icWebSideService;
     }
 
+    /**
+     *  设定yawl的custom form重定向到这个url，然后将appHandle带上，再转到formengine去
+     *  达到验证的目的和安全性
+     *  but，暂时未连接起来
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/formServiceGateway")
     public String formServiceGateway(HttpServletRequest request,HttpServletResponse response){
         System.out.println("form service gateway");
@@ -105,13 +113,13 @@ public class PlatformController {
         final String WFMSName = params.getStringParam("WFMSName");
         final String handle = params.getStringParam("handle");
         final String appName = params.getStringParam("appName");
-        final String specInstId = params.getStringParam("specInstId");
-        final String workItemId = params.getStringParam("workItemId");
+//        final String specInstId = params.getStringParam("specInstId");
+//        final String workItemId = params.getStringParam("workItemId");
 
         new AjaxExeTemplate() {
             @Override
             public Object doExe(HttpServletRequest request, HttpServletResponse response) throws Exception {
-                return icWebSideService.requestAppStatus(WFMSName,handle,appName,specInstId,workItemId);
+                return icWebSideService.requestAppStatus(WFMSName,handle,appName);
             }
 
             @Override

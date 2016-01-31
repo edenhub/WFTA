@@ -6,11 +6,16 @@ import com.sysu.toolCommons.interfaceC.platform.InterfaceC_WebSideService;
 import com.sysu.toolCommons.result.ResultInfo;
 import com.sysu.toolCommons.util.EncryptUtils;
 import com.sysu.toolPlantform.util.CacheInstanceUtil;
+import com.sysu.toolPlantform.util.SysInfoConfigProperties;
 import com.sysu.toolPlantform.util.TokenValidateUtil;
+import com.sysu.toolPlantform.web.HttpClient4ResultInfo;
+import com.sysu.toolPlantform.web.HttpUrlValidator;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,6 +27,8 @@ public class InterfaceC_WebSideServiceImpl implements InterfaceC_WebSideService 
     private EasyCache<String,String> sessionCache;
 
     private EasyCache<String,String> appCache;
+
+    private SysInfoConfigProperties configPros = SysInfoConfigProperties.getInstance();
 
     @PostConstruct
     public void init(){
@@ -37,6 +44,8 @@ public class InterfaceC_WebSideServiceImpl implements InterfaceC_WebSideService 
 
     @Override
     public String connect(String WFMSName, String token) throws InterfaceC_Exeception {
+        String srcHandle = sessionCache.getCache(WFMSName);
+        if (srcHandle != null) return srcHandle;
         boolean isValidate = TokenValidateUtil.isWFMSTokenValidate(WFMSName,token);
         String handle = null;
         if (isValidate){
@@ -66,23 +75,34 @@ public class InterfaceC_WebSideServiceImpl implements InterfaceC_WebSideService 
     @Override
     public boolean invokeApplication(String WFMSName, String handle,
                                      String appName, String spaceInstId,String workItemId)
-            throws InterfaceC_Exeception{
+            throws Exception {
         String srcHandle = sessionCache.getCache(WFMSName);
         if (srcHandle == null || !srcHandle.equals(handle))throw new InterfaceC_Exeception("error WFMSName with handle");
         String appId = generateUniqueId(appName,spaceInstId,workItemId);
-        appCache.putCache(appId,TokenValidateUtil.generateHandle());
+        String invokeUrl = configPros.getAppInvokeUrl(appName);
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("appToken",configPros.getAppToken(appName));
+        params.put("specInstId",spaceInstId);
+        params.put("workItemId",workItemId);
+        ResultInfo ri = new HttpClient4ResultInfo().requestPost(invokeUrl,params);
+        if (ri.getError() != null){
+            throw new Exception(ri.getError());
+        }
+        String appHandle = ri.getData().toString();
+        appCache.putCache(appId,appHandle);
         return true;
     }
 
     @Override
-    public int requestAppStatus(String WFMSName, String handle,
-                                String appName, String spaceInstId,String workItemId)
+    public String requestAppStatus(String WFMSName, String handle, String appName)
             throws InterfaceC_Exeception{
         String srcHandle = sessionCache.getCache(WFMSName);
         if (srcHandle == null || !srcHandle.equals(handle)) throw new InterfaceC_Exeception("error WFMSName with handle");
-        String appId = generateUniqueId(appName,spaceInstId,workItemId);
-        String appHandle = appCache.getCache(appId);
-        if (appHandle == null) return AppSataus.STATUS_TERMINATE;
+//        String appId = generateUniqueId(appName,spaceInstId,workItemId);
+//        String appHandle = appCache.getCache(appId);
+//        if (appHandle == null) return AppSataus.STATUS_TERMINATE;
+        String appUrl = configPros.getAppUrl(appName);
+        if (!HttpUrlValidator.validate(appUrl)) return AppSataus.STATUS_TERMINATE;
         return AppSataus.STATUS_RUNNING;
     }
 
@@ -97,15 +117,15 @@ public class InterfaceC_WebSideServiceImpl implements InterfaceC_WebSideService 
         return true;
     }
 
-    private static class AppSataus{
+    public static class AppSataus{
         /**
          * 停止状态
          */
-        public static int STATUS_TERMINATE = 0;
+        public static String STATUS_TERMINATE = "<terminate>";
 
         /**
          * 活动状态
          */
-        public static int STATUS_RUNNING = 1;
+        public static String STATUS_RUNNING = "<running>";
     }
 }
