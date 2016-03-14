@@ -110,6 +110,7 @@ public class WorkItemParamParser {
     }
 
     public WorkItemParams parse(String paramStr) throws DocumentException, UnsupportedEncodingException {
+//        System.out.println(paramStr+"\t"+"===============");
         Document doc = reader.read(new ByteArrayInputStream(paramStr.getBytes("UTF-8")));
         WorkItemParams retParams = new WorkItemParams();
 
@@ -149,7 +150,7 @@ public class WorkItemParamParser {
             param.setName(name);
             param.setType(type);
             param.setDefaultValue(defaultValue);
-            param.setOutput(true);
+            param.setOutput(false);
 
             retParams.addInputParam(param);
             retParams.addParam(param);
