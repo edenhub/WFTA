@@ -1,6 +1,6 @@
 package com.sysu.toolPlantform.interfaceC;
 
-import com.sysu.toolCommons.cache.EasyCache;
+import com.sysu.toolCommons.cache.CacheFuncAction;
 import com.sysu.toolCommons.interfaceC.InterfaceC_Exeception;
 import com.sysu.toolCommons.interfaceC.platform.InterfaceC_WebSideService;
 import com.sysu.toolCommons.result.ResultInfo;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,9 +23,9 @@ import java.util.Map;
 
 @Component
 public class InterfaceC_WebSideServiceImpl implements InterfaceC_WebSideService {
-    private EasyCache<String,String> sessionCache;
+    private CacheFuncAction<String,String> sessionCache;
 
-    private EasyCache<String,String> appCache;
+    private CacheFuncAction<String,String> appCache;
 
     private SysInfoConfigProperties configPros = SysInfoConfigProperties.getInstance();
 

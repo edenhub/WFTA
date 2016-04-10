@@ -1,6 +1,6 @@
 package com.sysu.toolPlantform.util;
 
-import com.sysu.toolCommons.cache.EasyCache;
+import com.sysu.toolCommons.cache.CacheFuncAction;
 import com.sysu.toolCommons.cache.LogActionEasyCache;
 
 /**
@@ -27,19 +27,19 @@ public class CacheInstanceUtil {
     private static CacheInstanceUtil instance = new CacheInstanceUtil();
 
     //appName or WFMSNAME -> handle
-    private EasyCache<String,String> sessionCache;
+    private CacheFuncAction<String,String> sessionCache;
 
-    private EasyCache<String,String> appCache;
+    private CacheFuncAction<String,String> appCache;
 
     public static CacheInstanceUtil getInstance() {
         return instance;
     }
 
-    public EasyCache<String, String> getSessionCache() {
+    public CacheFuncAction<String, String> getSessionCache() {
         return sessionCache;
     }
 
-    public EasyCache<String, String> getAppCache() {
+    public CacheFuncAction<String, String> getAppCache() {
         return appCache;
     }
 }

@@ -12,7 +12,66 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by adam on 2015/12/27.
  */
-public abstract class EasyCache<K,V> extends CacheLifeAction<K,V> implements CacheFuncAction<K,V> {
+public abstract class EasyCache2<K,V> {
+
+    /********************   Abstract Action Logic Define ********************/
+
+    /**
+     * before get cache
+     * @param key
+     * @return
+     */
+    protected abstract boolean beforeGetCache(K key);
+
+    /**
+     * after get cache
+     * @param key
+     * @param value
+     */
+    protected abstract void afterGetCache(K key,V value);
+
+    /**
+     * before put cache
+     * @param key
+     * @param value
+     * @return
+     */
+    protected abstract boolean beforePutCache(K key,V value);
+
+    /**
+     * after put cache
+     * @param key
+     * @param value
+     */
+    protected abstract void afterPutCache(K key,V value);
+
+    /**
+     * before remove cache
+     * @param key
+     * @return
+     */
+    protected abstract boolean beforeRemoveCache(K key);
+
+    /**
+     * after remove cache
+     * @param key
+     * @param value
+     */
+    protected abstract void afterRemoveCache(K key,V value);
+
+    /**
+     * before shutdown cache
+     * @return
+     */
+    protected abstract boolean beforeShutDown();
+
+    /**
+     * after shutdown cache
+     */
+    protected abstract void afterShutDown();
+
+    /********************   Action Interface Define ********************/
+
 
     /********************   DemoTimerTask Implement ********************/
 
@@ -77,7 +136,7 @@ public abstract class EasyCache<K,V> extends CacheLifeAction<K,V> implements Cac
     private boolean isShutDown = false;
 
     //默认5分钟清理缓存
-    public EasyCache(String name){
+    public EasyCache2(String name){
         lock = new ReentrantLock();
         period = 1000 * 60 * 5;
         live = 1000 * 60 * 5;
@@ -92,18 +151,10 @@ public abstract class EasyCache<K,V> extends CacheLifeAction<K,V> implements Cac
         startDemoRunner();
     }
 
-    public EasyCache(String name,long period,long live){
-        lock = new ReentrantLock();
+    public EasyCache2(String name, long period, long live){
+        this(name);
         this.period = period;
         this.live = live;
-
-        cacheCntner = new HashMap<K, V>();
-        cacheTag = new HashMap<K, Long>();
-
-        this.demoName = name;
-
-        demoRunner = new Timer(demoName);
-
         startDemoRunner();
     }
 

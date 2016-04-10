@@ -139,6 +139,8 @@ public class WorkQueueServiceController implements SysLogger{
         final String handle = params.getStringParam("handle");
         final String updateStr = params.getStringParam("updateStr");
 
+//        System.out.println(updateStr+" : "+itemId);
+
         new AjaxExeTemplate() {
             @Override
             public Object doExe(HttpServletRequest request, HttpServletResponse response) throws Exception {

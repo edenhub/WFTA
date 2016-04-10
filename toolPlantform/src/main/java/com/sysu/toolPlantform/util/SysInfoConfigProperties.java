@@ -83,9 +83,9 @@ public class SysInfoConfigProperties extends Properties implements SysLogger{
     public String getAppInvokeUrl(String appName){
         String url =  getProperty("config.app.invoke.url."+appName);
         String appUrl = getAppUrl(appName);
-        System.out.println(appName);
-        System.out.println(url);
-        System.out.println(appUrl);
+//        System.out.println(appName);
+//        System.out.println(url);
+//        System.out.println(appUrl);
         if (!url.startsWith(appUrl)) return null;
 
         return url;
