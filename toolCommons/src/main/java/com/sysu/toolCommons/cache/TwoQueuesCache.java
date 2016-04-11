@@ -31,12 +31,6 @@ public abstract class TwoQueuesCache<K,V> extends CacheLifeAction<K,V> implement
                 Iterator<K> it = cacheTag.keySet().iterator();
                 while(it.hasNext()){
                     K k = it.next();
-                    Long preTime = cacheTag.get(k);
-                    if (preTime == null) continue;
-                    long step = currentTime - preTime;
-                    if (step > live){
-                        removeCache(k);
-                    }
                 }
 //                for(K k : cacheTag.keySet()){
 //                    Long preTime = cacheTag.get(k);
@@ -315,7 +309,7 @@ public abstract class TwoQueuesCache<K,V> extends CacheLifeAction<K,V> implement
             //throw new IllegalArgumentException("value size is too big for store");
             logger.warn("Warning! TwoQueuesCache:" + "value size is too big for store in cache.\n" +
                             "MaxSizeIn: " + maxSizeIn + "\nStored: " + safeSizeOf(key, value) +
-                            "\nKey:"+key.toString()
+                            "\nKey:" + key.toString()
             );
         }
 
