@@ -38,7 +38,7 @@ public interface InterfaceC_WebSideService {
      * @return
      * @throws InterfaceC_Exeception
      */
-    boolean invokeApplication(String WFMSName, String handle,
+    String invokeApplication(String WFMSName, String handle,
                               String appName, String spaceInstId,String workItemId)
             throws Exception;
 

@@ -4,6 +4,7 @@ import com.sysu.toolCommons.interfaceC.platform.InterfaceC_WebSideService;
 import com.sysu.toolCommons.util.AjaxExeTemplate;
 import com.sysu.toolCommons.web.ParameterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 public class PlatformController {
 
     @Autowired
+//    @Qualifier("HTTPICWebSideService")
+    @Qualifier("WSICWebSideService")
     private InterfaceC_WebSideService icWebSideService;
 
     public InterfaceC_WebSideService getIcWebSideService() {

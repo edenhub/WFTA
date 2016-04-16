@@ -68,6 +68,18 @@ public class SysInfoConfigProperties extends Properties implements SysLogger{
         return calMultiplate(getProperty("config.cache.live.app","1000 * 60 * 30"));
     }
 
+    public String getJaxWsClientName(){
+        return getProperty("config.cache.name.JaxWsClient","JaxWsClient_Cache");
+    }
+
+    public long getJaxWsClientPeriod(){
+        return calMultiplate(getProperty("config.cache.period.JaxWsClient","1000 * 60 * 30"));
+    }
+
+    public long getJaxWsClientLive(){
+        return calMultiplate(getProperty("config.cache.live.JaxWsClient","1000 * 60 * 30"));
+    }
+
     public String getWorkFlowToken(String WFMSName){
         return getProperty("config.token."+WFMSName);
     }

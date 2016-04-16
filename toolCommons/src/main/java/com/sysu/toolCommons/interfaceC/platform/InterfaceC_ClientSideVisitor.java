@@ -26,7 +26,7 @@ public interface InterfaceC_ClientSideVisitor {
     public void disconnect(String WFMSName,String handle) throws Exception;
 
     /**
-     * 为task的执行建立会话
+     * 为task的执行建立会话,获得第三方工具的会话令牌
      * @param WFMSName
      * @param handle
      * @param appName
@@ -35,7 +35,7 @@ public interface InterfaceC_ClientSideVisitor {
      * @return
      * @throws Exception
      */
-    Boolean invokeApp(String WFMSName, String handle,
+    String invokeApp(String WFMSName, String handle,
                       String appName, String specInstId, String workItemId) throws Exception;
 
     /**

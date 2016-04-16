@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="appService">
+    <typeAlias alias="appService" type="com.sysu.toolPlantform.appService.domain.AppServiceInfo"/>
+
+    <resultMap id="appServiceResult" class="com.sysu.toolPlantform.appService.domain.AppServiceInfo">
+        <result property="appName" column="appName"/>
+        <result property="serviceUrl" column="serviceUrl"/>
+        <result property="appToken" column="appToken"/>
+        <result property="state" column="state"/>
+    </resultMap>
+
+    <insert id="createAppService" parameterClass="appService">
+        insert into appService(appName,serviceUrl,appToken,state,createTime,modifyTime)
+        values (#appName#,#serviceUrl#,#appToken#,#state#,now(),now());
+    </insert>
+
+    <select id="selectAppServiceByName" parameterClass="java.lang.String" resultMap="appServiceResult">
+        select * from appService where appName = #appName# and state = 1;
+    </select>
+
+    <update id="updateAppServiceByName" parameterClass="appService">
+        update appService set modifyTime = now()
+        <isNotNull prepend=" , " property="serviceUrl">serviceUrl=#serviceUrl#</isNotNull>
+        <isNotNull prepend=" , " property="appToken">appToken#appToken#</isNotNull>
+        where appName=#appName# and state = 1;
+    </update>
+
+    <update id="deleteAppServiceByName" parameterClass="java.lang.String">
+        update appService set modifyTime = now(),state = 0 where appName = #appName#;
+    </update>
+
+</sqlMap>

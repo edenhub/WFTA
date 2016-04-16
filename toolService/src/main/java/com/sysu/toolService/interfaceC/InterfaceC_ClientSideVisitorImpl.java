@@ -69,7 +69,7 @@ public class InterfaceC_ClientSideVisitorImpl implements InterfaceC_ClientSideVi
         if (ri.getError() == null){
             return (String) ri.getData();
         }else{
-            throw new Exception(ri.getError());
+            throw new Exception(ri.getMsg(),ri.getError());
         }
     }
 
@@ -82,12 +82,12 @@ public class InterfaceC_ClientSideVisitorImpl implements InterfaceC_ClientSideVi
 
         ResultInfo ri =  requestPost(url,params);
         if (ri.getError() != null){
-            throw new Exception(ri.getError());
+            throw new Exception(ri.getMsg(),ri.getError());
         }
     }
 
     @Override
-    public Boolean invokeApp(String WFMSName, String handle,
+    public String invokeApp(String WFMSName, String handle,
                              String appName, String specInstId, String workItemId) throws Exception{
         String url = ROOT_URL+INVOKE_PATH;
         Map<String,String> params = new HashMap<String, String>();
@@ -99,10 +99,10 @@ public class InterfaceC_ClientSideVisitorImpl implements InterfaceC_ClientSideVi
 
         ResultInfo ri = requestPost(url,params);
         if (ri.getError() != null){
-            throw new Exception(ri.getError());
+            throw new Exception(ri.getMsg(),ri.getError());
         }
 
-        return (Boolean)ri.getData();
+        return (String)ri.getData();
     }
 
     @Override
@@ -118,7 +118,7 @@ public class InterfaceC_ClientSideVisitorImpl implements InterfaceC_ClientSideVi
 
         ResultInfo ri = requestPost(url,params);
         if (ri.getError() != null){
-            throw new Exception(ri.getError());
+            throw new Exception(ri.getMsg(),ri.getError());
         }
 
         return (String)ri.getData();
@@ -137,7 +137,7 @@ public class InterfaceC_ClientSideVisitorImpl implements InterfaceC_ClientSideVi
 
         ResultInfo ri = requestPost(url,params);
         if (ri.getError() != null){
-            throw new Exception(ri.getError());
+            throw new Exception(ri.getMsg(),ri.getError());
         }
 
         return (Boolean)ri.getData();

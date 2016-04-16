@@ -17,7 +17,7 @@
     <bean id="SystemInfo" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>WEB-INF/props/systemInfos.properties</value>
+                <value>/props/systemInfos.properties</value>
             </list>
         </property>
     </bean>

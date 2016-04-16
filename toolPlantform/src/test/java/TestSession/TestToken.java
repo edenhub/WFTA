@@ -11,7 +11,8 @@ public class TestToken {
     @Test
     public void generateYAWL(){
         long timestamp = System.currentTimeMillis();
-        String name = "formengine";
+//        String name = "formengine";
+        String name = "logger";
 
         String token = TokenValidateUtil.generateToken(name+"_"+timestamp);
         System.out.println(name+"_"+timestamp);
